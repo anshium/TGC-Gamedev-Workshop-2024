@@ -40,5 +40,5 @@ class HillGrid:
 
 
 if __name__ == "__main__":
-    h = HillGrid(ITER=50, SIZE=32)
+    h = HillGrid(ITER=50, SIZE=16)
     h.dump()
