@@ -7,17 +7,20 @@ app = Ursina()
 WALK_SPEED = 5
 RUN_SPEED = 7
 
+grass_texture = load_texture("assets/grass.png")
+punch_sound = Audio("assets/punch.wav", loop = False, autoplay = False)
+
 
 class Voxel(Button):
     def __init__(self, position=(0, 0, 0)):
         super().__init__(
             parent=scene,
             position=position,
-            model="cube",
+            model="assets/block",
             origin_y=0.5,
-            texture="white_cube",
-            color=color.hsv(0, 0, random.uniform(0.9, 1.0)),
-            highlight_color=color.lime,
+            texture=grass_texture,
+            color=color.color(0, 0, random.uniform(0.9, 1)),
+            scale = 0.5
         )
 
 def update():
@@ -38,8 +41,10 @@ def update():
 
 def input(key):
     if key == "left mouse down":
+        punch_sound.play()
         destroy(mouse.hovered_entity)
     if key == "right mouse down" and mouse.hovered_entity:
+        punch_sound.play()
         hit_info = raycast(camera.world_position, camera.forward, distance=100)
         if hit_info.hit:
             Voxel(position=hit_info.entity.position + hit_info.normal)
